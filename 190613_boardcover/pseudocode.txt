@@ -1,0 +1,46 @@
+/*
+ * Assumptions
+ * - `board`: 20 x 20 bool array
+ * - `num_white`: counted first during I/O
+ */
+cover_board(board, nr, nc, num_white)
+{
+	if !num_white:
+		return 1;
+
+	r, c = top-left of board;
+	cases = possible(board, nr, nc, r, c);
+	sum = 0;
+
+	if !cases:
+		return 0;
+	else:
+		num_white -= 3;
+
+	for case in 0..7:
+		if cases & 1<<case:
+			fill_board(board, r, c, case, black);
+			sum += cover_board(board, nr, nc, num_white);
+			fill_board(board, r, c, case, white);
+
+	return sum;
+}
+
+possible(board, nr, nc, row, col)
+{
+	output = 0;
+
+	for case in 0..7:
+		check if index overflow happens;
+		check if any of the 3 required cells is a filled cell;
+		if case is possible:
+			output |= 1<<case;
+
+	return output;
+}
+
+fill_board(board, row, col, case, color)
+{
+	// fill the position (row,col) in board appropriately
+	// according to the given case and color
+}
