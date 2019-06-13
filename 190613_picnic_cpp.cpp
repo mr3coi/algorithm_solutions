@@ -35,12 +35,13 @@ int main()
 		std::vector<std::string> parsed((std::istream_iterator<std::string>(iss)),
 										std::istream_iterator<std::string>());
 
+		// Parse friendship pair information from input line
 		for (unsigned int p=0; p<num_pairs*2; p+=2)
 		{
 			unsigned int std_a = std::stoul(parsed[p]);
 			unsigned int std_b = std::stoul(parsed[p+1]);
 
-			// Insert in both directions
+			// Insert only unidirectionally: (smaller ID)->(larger ID)
 			pairs[MIN(std_a,std_b)].push_back(MAX(std_a,std_b));
 		}
 
