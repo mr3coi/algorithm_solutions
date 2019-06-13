@@ -1,0 +1,29 @@
+/*
+ * Assumption:
+ *  friendship is stored unidirectionally in `pairs`: from smaller ID to larger ID
+ *  `handled` is a boolean vector storing whether each student has been paired-up or not
+ */
+recursive_count(handled, pairs, num_students)
+{
+    sum = 0;
+    finished = true;
+
+    for std_idx in [0, num_std]:
+        if not handled[std_idx]:
+            finished = false;
+            handled[std_idx] = true;
+
+            for std_idx2 in pairs[std_idx]:
+                if not handled[std_idx2]:
+                    handled[std_idx2] = true;
+                    sum += recursive_count(handled, pairs, num_students)
+                    handled[std_idx2] = false;
+
+            handled[std_idx] = false;
+            break;  // removes redundancy
+
+    if finished:
+        return 1;
+    else:
+        return sum;
+}
