@@ -13,7 +13,7 @@ tsp_fullsearch(roads, best_path[MAX_LEN]) {
 		if city has only one adjacent city:
 			return null;
 
-	home = choose one city among 0..n;
+	home = 0; // Any city works; choosing city 0 would be most convenient for finding adjacent-city pairs
 	visited[home] = 1;
 
 	for (start, end) pair in cities adjacent to home: // start < end
