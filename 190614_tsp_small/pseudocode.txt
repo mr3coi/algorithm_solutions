@@ -1,0 +1,41 @@
+#define MAX_LEN 10
+
+/*
+ * Assumptions:
+ * - returns length of best path & stores the path in `best_path` given from outside as argument
+ * - path is indicated by numbering each city with when to visit (starting from 1)
+ */
+tsp_fullsearch(roads, best_path[MAX_LEN]) {
+	int best_len = VERY_LARGE_NUM;
+	visited[MAX_LEN] = {0,0,...,0};
+
+	for city in 0..n: // Base case 1
+		if city has only one adjacent city:
+			return null;
+
+	home = choose one city among 0..n;
+	visited[home] = 1;
+
+	for (start, end) pair in cities adjacent to home: // start < end
+		curr_len = roads[home][start] + roads[end][home];
+		find_path(roads, start, 2, end, visited, curr_len, best_path, &best_len);
+
+	return best_len;
+}
+
+find_path(roads, start, end, next, visited, curr_len, best_path, &best_len) {
+	if start == end: // Base case 2, 3
+		if next == n && curr_len < *best_len: // all cities have been visited & better path found
+			visited[end] = n;
+			copy visited into best_path;
+			*best_len = curr_len;
+		return;
+	
+	for city in 0..n:
+		if roads[start][city] > 0:
+			curr_len += roads[start][city];
+			visited[city] = next;
+			find_path(roads, city, end, next+1, visited, curr_len, best_path, &best_len);
+			visited[city] = 0;
+			curr_len -= roads[start][city];
+}
