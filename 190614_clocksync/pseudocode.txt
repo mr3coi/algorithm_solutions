@@ -1,0 +1,26 @@
+#define FAIL 31
+
+sync_clock(status, each_switch, each_clock, curr, num_press) {
+	if num_press > 30: // Base case 4
+		return FAIL;
+
+	if curr >= 7: // Base case 1, 2
+		return sum(status[7..16]) == 0 ? num_press : FAIL;
+
+	if status[curr] == 0:
+		return sync_clock(status, each_switch, each_clock, curr+1, num_press);
+	else: // if status[curr] > 0
+		ret = 31; // Large value
+
+		if each_clock[curr].size() == 0: // Base case 3
+			return FAIL;
+
+		for switch in each_clock[curr]:
+			press switch and update status;
+			num_press += 1;
+			ret = MIN(ret, sync_clock(status, each_switch, each_clock, curr, num_press);
+			num_press -= 1;
+			de-press switch and revert status;
+
+		return ret;
+}
