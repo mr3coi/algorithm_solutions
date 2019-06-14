@@ -24,8 +24,11 @@ tsp_fullsearch(roads, best_path[MAX_LEN]) {
 }
 
 find_path(roads, start, end, next, visited, curr_len, best_path, &best_len) {
+	if curr_len >= *best_len: // Base case 4
+		return;
+
 	if start == end: // Base case 2, 3
-		if next == n && curr_len < *best_len: // all cities have been visited & better path found
+		if next == n: // all cities have been visited & better path found (checked above)
 			visited[end] = n;
 			copy visited into best_path;
 			*best_len = curr_len;
