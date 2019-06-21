@@ -1,0 +1,26 @@
+// end-exclusive
+flip(str, start, end) {
+	print str[start];
+
+	if (start <= end-1) {
+		parse(str, &info, start, end);
+
+		flip(str, info[2], info[3]);
+		flip(str, info[3], end);
+		flip(str, info[0], info[1]);
+		flip(str, info[1], info[2]);
+	}
+
+	return;
+}
+
+// info: empty vector that will store the parsed results
+parse(str, &info, start, end) {
+	count = 4;
+	marker = 3;
+
+	for (i in [start+1..end+1]) {
+		if (--count == marker) info.push_back(i);
+		if (str[i] == 'x') count += 4;
+	}
+}

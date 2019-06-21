@@ -1,0 +1,21 @@
+// x_s: indices of x's in the order first found
+// loc_info: the start & end positions + value (B/W/X) of each branch of each x
+
+parse(str) {
+	num_x_s = # of x's in str;
+
+	int loc_info[num_x_s][4][3];
+	vector<int> x_s;
+	int filled[num_x_s] = {0} * num_x_s;
+
+	top = -1;
+	curr = -1;
+	for idx in [0..str.size()]:
+		loc_info[curr][
+		if str[idx] == 'x':
+			x_s.push_back(idx);
+			top = curr;
+			curr = x_s.size()-1;
+
+		else:
+}
