@@ -6,14 +6,15 @@ bool solve(int size, int row, int col) {
 	if (row == size-1 and col == size-1) return true;
 
 	// Cached; already visited, meaningless to re-visit
-	if (vistied[row][col] == true) return false;
+	if (visited[row][col]) return false;
 
 	jumpsize = tile[row][col];
+	visited[row][col] = true;
 	ret = false;
 	if (col + jumpsize < size) ret |= solve(size, row, col+jumpsize); // East
 	if (col - jumpsize >= 0) ret |= solve(size, row, col-jumpsize); // West
 	if (row + jumpsize < size) ret |= solve(size, row+jumpsize, col); // South
-	if (col - jumpsize >= 0) ret |= solve(size, row-jumpsize, col); // North
+	if (row - jumpsize >= 0) ret |= solve(size, row-jumpsize, col); // North
 
 	return ret;
 }
