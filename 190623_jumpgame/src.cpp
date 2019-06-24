@@ -36,6 +36,9 @@ int main() {
 }
 
 bool solve(int size, int row, int col) {
+	// Base case: jumped outside board
+	if (row >= size or col >= size) return false;
+
 	// Base case: arrived at destination
 	if (row == size-1 and col == size-1) return true;
 
@@ -44,9 +47,5 @@ bool solve(int size, int row, int col) {
 
 	visited[row][col] = true;
 	int jumpsize = tile[row][col];
-	bool ret = false;
-	if (col + jumpsize < size) ret |= solve(size, row, col+jumpsize); // East
-	if (row + jumpsize < size) ret |= solve(size, row+jumpsize, col); // South
-
-	return ret;
+	return solve(size, row, col+jumpsize) or solve(size, row+jumpsize, col);
 }
