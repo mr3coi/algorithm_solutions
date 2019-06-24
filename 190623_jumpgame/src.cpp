@@ -1,9 +1,14 @@
 #include <iostream>
-#include <limits>
-#include <sstream>
 #include <vector>
 
 using namespace std;
+
+auto ds = []() {
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+	return 0;
+}();
 
 vector<vector<int>> tile;
 vector<vector<bool>> visited;
