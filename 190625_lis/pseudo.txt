@@ -1,0 +1,21 @@
+#define MAXLEN 500
+
+int cache[MAXLEN];
+
+int solve(int start, int N) {
+	int& ret = cache[start];
+	if (ret != -1) return ret;
+
+	ret = 1;
+	for (int i=start+1; i<N; ++i) {
+		ret = max(ret, 1+solve(i,N));
+	}
+	return ret;
+}
+
+int main() {
+	int N;
+	int ret = -1;
+	for (int start=0; start<N; start++) ret = max(ret, solve(start,N));
+	cout << ret << endl;
+}
