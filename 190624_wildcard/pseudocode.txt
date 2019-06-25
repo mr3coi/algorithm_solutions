@@ -1,0 +1,27 @@
+solve(txt, pat, i, j) {
+	// Base case 1: arrived at end of pattern & txt => true
+	if (i == txt.size() and j == pat.size()) return 1;
+
+	if (i == txt.size() or j == pat.size()) {
+		// Special case: txt ends, pat has '*' left => might be successful
+		if (pat[j] == '*') return solve(txt, pat, i, j+1);
+
+		// Base case 2: arrived at end of txt or end of pattern (but not both) => false
+		else return 0;
+	}
+
+	// Memoization
+	int& ret = cache[i][j];
+	if (ret != -1) return ret;
+
+	if (pat[j] == '*') {
+		return ret = max(solve(txt, pat, i+1, j), solve(txt, pat, i, j+1));
+	}
+	else if (pat[j] == '?') {
+		return ret = solve(txt, pat, i+1, j+1);
+	}
+	else {
+		// Base case 3: txt-pat mismatch => not matched (false)
+		return txt[i] == pat[j] ? solve(txt, pat, i+1, j+1) : 0;
+	}
+}
