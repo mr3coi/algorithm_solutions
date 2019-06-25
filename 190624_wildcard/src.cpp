@@ -56,41 +56,14 @@ int main() {
 }
 
 int solve(int t, int p) {
-#ifdef TEST
-	cout << "(" << t << "," << p << ") => (" << txt[t] << "," << pat[p] << ")" << endl;
-#endif
-	if (p == pat.size() and t == txt.size()) {
-#ifdef TEST
-		cout << ">>> Case 1 (both end), returning 1"<< endl;
-#endif
-		return 1;
-	}
-	if (t == txt.size() or p == pat.size()) {
-#ifdef TEST
-		cout << ">>> Case 2 (only one ends), returning 0"<< endl;
-#endif
-		return pat[p] == '*' ? solve(t, p+1) : 0;
-	}
+	if (p == pat.size()) return t == txt.size();
+	if (t == txt.size()) return pat[p] == '*' ? solve(t, p+1) : 0;
 
 	int& ret = cache[t][p];
-	if (ret != -1) {
-#ifdef TEST
-		cout << ">>> Case cached, returns : " << ret << endl;
-#endif
-		return ret;
-	}
+	if (ret != -1) return ret;
 
-	if (pat[p] == '*') {
-#ifdef TEST
-		cout << ">>> Case '*', calling (" << t+1 << "," << p << ") and (" << t << "," << p+1 << ")" << endl;
-#endif
-		return ret = max(solve(t+1, p), solve(t, p+1));
-	}
-	else if (pat[p] == '?') {
-#ifdef TEST
-		cout << ">>> Case '?', calling (" << t+1 << "," << p+1 << ")" << endl;
-#endif
-		return ret = solve(t+1, p+1);
-	}
-	else return ret = (txt[t] == pat[p] ? solve(t+1, p+1) : 0);
+	if (pat[p] == '*') return ret = max(solve(t+1, p), solve(t, p+1));
+	if (pat[p] == '?' or txt[t] == pat[p]) return ret = solve(t+1, p+1);
+
+	return ret = 0;
 }
