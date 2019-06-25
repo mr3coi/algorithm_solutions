@@ -10,15 +10,15 @@ using namespace std;
 int tri[MAXLEN][MAXLEN];
 int cache[MAXLEN][MAXLEN]; // Initialized as -1
 
-// Returns largest sum from all paths to (r,c)
+// Returns largest sum from (r,c) to anywhere in the bottom row
 int solve(int N, int r, int c) {
 	// Base case: arrived at top of triangle => return the value
-	if (r==0 and c==0) return tri[r][c];
+	if (r==N-1) return tri[r][c];
 
 	int& ret = cache[r][c];
 	if (ret != -1) return ret;
 
-	return ret = tri[r][c] + max(c > 0 ? solve(N, r-1,c-1) : -1, c < r ? solve(N, r-1,c) : -1);
+	return ret = tri[r][c] + max(solve(N, r+1,c+1), solve(N, r+1,c));
 }
 
 int main() {
@@ -35,9 +35,7 @@ int main() {
 		}
 		memset(cache, -1, sizeof(int)*MAXLEN*MAXLEN);
 
-		int ret = -1;
-		for (int c=0; c<N; ++c) ret = max(ret, solve(N, N-1, c));
-		cout << ret << endl;
+		cout << solve(N, 0, 0) << endl;
 	}
 
 	return 0;
