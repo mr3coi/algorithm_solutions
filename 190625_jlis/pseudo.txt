@@ -1,0 +1,21 @@
+#define MAXLEN 100
+
+int seq[2][MAXLEN];
+int cache[MAXLEN][MAXLEN];
+
+int solve(int i1, int i2, int m, int n) {
+	int& ret = cache[i][j];
+	if (ret != -1) return ret;
+
+	ret = 1;
+	for (int j1=i1+1; j1<m; ++j1) {
+		if (seq[0][j1] > seq[0][i1] and seq[0][j1] > seq[1][i2])
+			ret = max(ret, 1+solve(j1, i2, m, n));
+	}
+	for (int j2=i2+1; j2<n; ++j2) {
+		if (seq[1][j2] > seq[0][i1] and seq[1][j2] > seq[1][i2])
+			ret = max(ret, 1+solve(i1, j2, m, n));
+	}
+
+	return ret;
+}
