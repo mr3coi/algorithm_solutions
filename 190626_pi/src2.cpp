@@ -22,6 +22,7 @@ int cache[MAXLEN+1];
 
 int solve() {
 	int seqlen = str.size();
+	cache[seqlen] = 0; // This is crucial (serves as base case)
 	cache[seqlen-1] = INF;
 	cache[seqlen-2] = INF;
 	cache[seqlen-3] = find_min(seqlen-3, 3);
@@ -67,7 +68,6 @@ int main() {
 		str.clear();
 		getline(cin, str);
 		memset(cache, -1, sizeof(int) * MAXLEN);
-		cache[str.size()] = 0;
 
 		cout << solve() << endl;
 	}
