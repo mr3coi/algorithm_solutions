@@ -18,6 +18,30 @@ using namespace std;
 string str;
 int cache[MAXLEN];
 
+int find_min(int start, int len) {
+	int nums[5], diffs[4];
+	for (int i=0; i<len; ++i) nums[i] = str[start+i] - '0';
+	for (int i=0; i<len-1; ++i) diffs[i] = nums[i+1] - nums[i];
+	int ret = INF;
+
+	bool case1 = true;
+	for (int i=0; i<len-1; ++i) if (diffs[i] != 0) case1 = false;
+	if (case1) return C1;
+
+	bool case24 = true;
+	for (int i=0; i<len-2; ++i) if (diffs[i] != diffs[i+1]) case24 = false;
+	if (case24) {
+		if (diffs[0] == 1 or diffs[0] == -1) return C2;
+		else return C4;
+	}
+
+	bool case3 = true;
+	for (int i=0; i<len-2; ++i) if (diffs[i] + diffs[i+1] != 0) case3 = false;
+	if (case3) return C3;
+
+	return C5;
+}
+
 int solve(int start) {
 #ifdef TEST
 	cout << "> start = " << start << endl;
@@ -29,6 +53,12 @@ int solve(int start) {
 	if (ret != -1) return ret;
 	ret = INF;
 
+	/* This code + `find_min` instead of the code chunk below */
+	for (int len=3; len<=5; ++len)
+		if (start+len <= str.size())
+			ret = min(ret, find_min(start, len) + solve(start+len));
+
+	/* Below chunk has not been debugged
 	int nums[5];
 	for (int i=0; i<5; ++i)
 		if (start + i < str.size()) nums[i] = str[start+i] - '0';
@@ -87,6 +117,7 @@ int solve(int start) {
 		if (start <= str.size() - 5)
 			ret = min(ret, C5 + solve(start+5));
 	}
+	*/
 
 	return ret;
 }
@@ -102,12 +133,6 @@ int main() {
 		cout << str << endl;
 #endif
 		memset(cache, -1, sizeof(int) * MAXLEN);
-
-		// TODO: Delete
-		if (str.size() > 8000) {
-			cout << "passed" << endl;
-			continue;
-		}
 
 		cout << solve(0) << endl;
 
