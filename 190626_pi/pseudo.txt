@@ -1,0 +1,57 @@
+#define C1 1
+#define C2 2
+#define C3 4
+#define C4 5
+#define C5 10
+
+string str;
+const int INF = numeric_limits<int>::max();
+
+int solve(int start) {
+	int nums[5];
+	for (int i=0; i<5; ++i) nums[i] = stoi(str[start+i]);
+
+	int diff12 = nums[1] - nums[0], diff23 = nums[2] - nums[1];
+	int ret = INF;
+	if (diff12 == 0 and diff23 == 0) { // Case 1
+		ret = min(ret, C1 + solve(start+3));
+		if (nums[3] == nums[2] == 0) {
+			ret = min(ret, C1 + solve(start+4));
+			if (nums[4] == nums[3] == 0)
+				ret = min(ret, C1 + solve(start+5));
+		}
+	}
+
+	if (diff12 == diff23) {
+		if (diff12 == 1 or diff12 == -1) { // Case 2
+			ret = min(ret, C2 + solve(start+3));
+			if (nums[3] - nums[2] == diff12) {
+				ret = min(ret, C2 + solve(start+4));
+				if (nums[4] - nums[3] == diff12)
+					ret = min(ret, C2 + solve(start+5));
+			}
+		}
+		else if (diff12 != 0) { // Case 4
+			ret = min(ret, C4 + solve(start+3));
+			if (nums[3] - nums[2] == diff12) {
+				ret = min(ret, C4 + solve(start+4));
+				if (nums[4] - nums[3] == diff12)
+					ret = min(ret, C4 + solve(start+5));
+			}
+		}
+	}
+
+	if (diff12 + diff23 == 0 and diff12 != 0) { // Case 3
+		ret = min(ret, C3 + solve(start+3));
+		if (nums[4] == nums[2]) {
+			ret = min(ret, C3 + solve(start+4));
+			if (nums[5] == nums[3])
+				ret = min(ret, C3 + solve(start+5));
+		}
+	}
+	ret = min(ret, C5 + solve(start+3));
+	ret = min(ret, C5 + solve(start+4));
+	ret = min(ret, C5 + solve(start+5));
+
+	return ret;
+}
