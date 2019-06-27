@@ -1,0 +1,39 @@
+#define INF 987654321
+#define MAXLEN 100
+#define MAXQUANT 10
+
+vector<int> seq; // Input numbers, assuming already sorted
+int cache[MAXLEN][MAXQUANT];
+
+int solve(int start, int remain) {
+	// Base case
+	if (seq.size() - start == remain) return 0;
+
+	// Underused quants => fail
+	if (seq.size() - start < remain) return INF;
+
+	int& ref = cache[start][remain];
+	if (ref != -1) return ref;
+	ref = INF;
+
+	for (int end=start+1; end<=seq.size(); ++end)
+		ref = min(ref, min_MSE(start,end) + solve(end, remain-1));
+
+	return ref;
+}
+
+/* End-exclusive */
+int min_MSE(int start, int end) {
+	if (end == start+1) return 0;
+
+	int sum = 0;
+	for (int i=start; i<end; ++i) sum += seq[i];
+	float mean = (float)sum / (float)(end-start);
+	int mean2 = (int)mean;
+	if ((int)(mean *10) % 10 >= 5) ++mean2;
+
+	sum = 0;
+	for (int i=start; i<end; ++i) sum += (seq[i]-mean2) * (seq[i]-mean2);
+
+	return sum;
+}
