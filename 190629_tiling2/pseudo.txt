@@ -1,0 +1,12 @@
+#define MOD 1000000007
+#define MAXLEN 100
+
+int cache[MAXLEN];
+
+// len: remaining length
+int solve(int len) {
+	if (len <= 1) return 1;
+
+	int& ret = cache[len];
+	return ret = (solve(len-1) + solve(len-2)) % MOD;
+}
