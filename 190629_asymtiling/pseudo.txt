@@ -1,0 +1,13 @@
+// Solution from 'TILING2', computes # of ways of tiling 2 X len block
+int solve(int len);
+
+int solve2() {
+	// Odd length: one vertical block at center, two wings mirroring each other
+	if (len % 2 == 1)
+		return (solve(len) + MOD - solve(len/2)) % MOD;
+	// Even length:
+	// Case 1) two adjacent wings mirroring each other
+	// Case 2) two horizontal blocks in the center, two wings mirroring each other
+	else
+		return ((solve(len) + MOD - solve(len/2)) % MOD + MOD - solve((len-2)/2)) % MOD;
+}
