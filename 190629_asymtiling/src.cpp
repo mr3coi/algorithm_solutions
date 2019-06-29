@@ -11,13 +11,9 @@ using namespace std;
 int cache[MAXLEN+1];
 
 // len: remaining length
-int solve(int len) {
-	if (len <= 1) return 1;
-
-	int& ret = cache[len];
-	if (ret != -1) return ret;
-
-	return ret = (solve(len-1) + solve(len-2)) % MOD;
+void solve(int len) {
+	cache[0] = cache[1] = 1;
+	for (int i=2;i<=len;++i) cache[i] = (cache[i-1] + cache[i-2]) % MOD;
 }
 
 int main() {
@@ -26,16 +22,11 @@ int main() {
 	while (C--) {
 		cin >> len;
 		memset(cache, -1, sizeof(int) * (MAXLEN+1));
-#ifdef TEST
-		int out_full = solve(len);
-		int out_half = solve(len/2);
-		cout << "solve(len) = " << out_full << endl;
-		cout << "solve(len/2) = " << out_half << endl;
-#endif
-		if (len % 2) cout << (solve(len) + MOD - solve(len/2)) % MOD << endl;
+		solve(len);
+		if (len % 2) cout << (cache[len] + MOD - cache[len/2]) % MOD << endl;
 		else {
-			int out = (solve(len) + MOD - solve(len/2)) % MOD;
-			out = (out + MOD - solve(len/2-1)) % MOD;
+			int out = (cache[len] + MOD - cache[len/2]) % MOD;
+			out = (out + MOD - cache[len/2-1]) % MOD;
 			cout << out << endl;
 		}
 	}
