@@ -1,0 +1,16 @@
+#define MAXN 1000
+#define MAXM 1000
+#define PROB (0.75)
+
+float cache[MAXM][MAXN];
+
+// need: # of sunny days needed
+float solve(int day, int need) {
+	if (need == 0) return 1;
+	if (day < need) return 0;
+
+	float& ret = cache[day][need];
+	if (ret != -1) return ret;
+
+	return ret = PROB * solve(day-1, need) + (1-PROB) * solve(day-1, need-1);
+}
