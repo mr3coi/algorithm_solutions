@@ -1,0 +1,28 @@
+#define MAXLEN 100
+
+int tri[MAXLEN][MAXLEN];
+int sumcache[MAXLEN][MAXLEN];
+int countcache[MAXLEN][MAXLEN];
+
+// Returns # of maximum paths from bottom to (row,col)
+// NOTE: 0 <= row, col < n
+// We want `solve(0,0)`
+int solve(int row, int col, int height) {
+	int& ret = countcache[row][col];
+	int& sum = sumcache[row][col];
+	if (row == height-1) {
+		sum = tri[row][col];
+		return ret = 1;
+	}
+
+	int leftsum = sumcache[row+1][col];
+	int rightsum = sumcache[row+1][col+1];
+
+	if (ret != -1) return ret;
+	if (leftsum > rightsum)
+		return ret = countcache[row+1][col];
+	else if (leftsum < rightsum)
+		return ret = countcache[row+1][col+1];
+	else
+		return ret = countcache[row+1][col] + countcache[row+1][col+1];
+}
