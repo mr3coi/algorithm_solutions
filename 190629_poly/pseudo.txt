@@ -1,0 +1,17 @@
+#define MOD 10000000
+#define MAXLEN 100
+
+int cache[MAXLEN+1][MAXLEN+1];
+
+// lastlen: length of the contiguous chunk of square blocks in the last row
+// remain: remaining # of blocks to attach to polyomino
+// solution: solve(1,99) + solve(2,98) + ... + solve(100,0)
+int solve(int lastlen, int remain) {
+	if (remain == 0) return 1;
+
+	int& ret = cache[lastlen][remain];
+	if (ret != -1) return ret;
+	ret = 0;
+	for (int curr=1;curr<=remain;++curr) ret += (curr + lastlen - 1) * solve(curr, remain-curr);
+	return ret;
+}
