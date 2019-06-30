@@ -1,0 +1,14 @@
+#define MAXN 100
+#define MAXD 100
+
+double markov[MAXN][MAXN];
+int targets[MAXN];
+
+void matmul(double (&from)[MAXN][MAXN],double (&with)[MAXN][MAXN],double (&to)[MAXN][MAXN], int N) {
+	// Store the product of `from` and `with` into `to`
+}
+
+void solve(int days, int N, int P) {
+	// multiply markov `days` times
+	// return P^{th} row of product
+}
